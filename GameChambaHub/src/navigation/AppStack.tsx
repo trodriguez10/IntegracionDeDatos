@@ -10,7 +10,7 @@ const Stack = createNativeStackNavigator<AppStackParamsList>();
 const AppStack = () => {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator>
+			<Stack.Navigator screenOptions={{ headerShown: false }}>
 				<Stack.Screen name="Home" component={HomeScreen} />
 				<Stack.Screen name="GameDetail" component={GameDetailScreen} />
 			</Stack.Navigator>
