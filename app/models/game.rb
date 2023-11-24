@@ -3,5 +3,5 @@ class Game
   include Mongoid::Timestamps
 
   field :name, type: String
-  fiels :id_rawg, type: Integer
+  field :id_rawg, type: Integer
 end
