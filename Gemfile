@@ -42,6 +42,8 @@ gem "bootsnap", require: false
 gem 'mongoid'
 gem 'solidservice'
 gem 'webpacker'
+gem 'pry'
+gem 'faraday'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
