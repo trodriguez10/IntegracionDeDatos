@@ -5,7 +5,7 @@ class RawrConnection < SolidService::Base
   RAWG_URL = "https://api.rawg.io/api"
 
   def call
-    response = get_games
+    response = get_games(params[:name], params[:page_size])
     if response.env.status.to_s.start_with?('4')
       fail!(error: 'There was an error with at least one of the files')
     else
@@ -22,7 +22,7 @@ class RawrConnection < SolidService::Base
     end
   end
 
-  def get_games
-    Faraday.get("#{RAWG_URL}/games?key=#{API_KEY}", "Content-Type" => "application/json")
+  def get_games(name, limit)
+    Faraday.get("#{RAWG_URL}/games?key=#{API_KEY}&search=#{name}&page_size=#{limit || 40}", "Content-Type" => "application/json")
   end
 end
