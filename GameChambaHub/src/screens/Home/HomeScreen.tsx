@@ -2,10 +2,18 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { View, StyleSheet, Button, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useGamesData } from '../../data/queries';
 
 const HomeScreen = ({ navigation }) => {
 	const [gameName, setGameName] = useState('');
 	const insets = useSafeAreaInsets();
+
+	const { data, isLoading, error, refetch } = useGamesData(gameName);
+
+	const handleSearch = () => {
+		refetch({ queryKey: ['gameData', gameName] });
+	};
+
 	return (
 		<View style={[styles.container, { paddingTop: insets.top }]}>
 			<StatusBar style="light" backgroundColor="#000000" />
@@ -16,12 +24,7 @@ const HomeScreen = ({ navigation }) => {
 				placeholder="Nombre del juego"
 				placeholderTextColor="grey"
 			/>
-			<Button
-				title="Buscar"
-				onPress={() => {
-					navigation.navigate('Games');
-				}}
-			/>
+			<Button title="Buscar" onPress={handleSearch} />
 		</View>
 	);
 };
