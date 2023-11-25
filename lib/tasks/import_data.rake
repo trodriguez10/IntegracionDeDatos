@@ -19,7 +19,7 @@ namespace :import_data do
         languages: clear_collection(game_data['languages']),
         meta_score: game_data['meta_score'],
         meta_url: game_data['meta_url'],
-        igdb_url: game_data['igdb_url'],
+        igdb_url_steam: game_data['igdb_url'],
         igdb_score: game_data['igdb_score'],
         igdb_popularity: game_data['igdb_popularity'],
       }
