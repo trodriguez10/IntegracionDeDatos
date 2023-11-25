@@ -1,6 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { View, StyleSheet, Button, TextInput } from 'react-native';
+import {
+	View,
+	StyleSheet,
+	Button,
+	TextInput,
+	Alert,
+	ActivityIndicator,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGamesData } from '../../data/queries';
 
@@ -8,11 +15,21 @@ const HomeScreen = ({ navigation }) => {
 	const [gameName, setGameName] = useState('');
 	const insets = useSafeAreaInsets();
 
-	const { data, isLoading, error, refetch } = useGamesData(gameName);
+	const onSuccess = (data) => {
+		navigation.navigate('GamesScreen', { games: data });
+	};
+
+	const { data, isLoading, error, refetch } = useGamesData(gameName, onSuccess);
 
 	const handleSearch = () => {
-		refetch({ queryKey: ['gameData', gameName] });
+		refetch();
 	};
+
+	if (error) {
+		Alert.alert('Error', 'Ha ocurrido un error al buscar el juego.', [
+			{ text: 'OK', onPress: () => console.log('OK Pressed') },
+		]);
+	}
 
 	return (
 		<View style={[styles.container, { paddingTop: insets.top }]}>
@@ -24,7 +41,11 @@ const HomeScreen = ({ navigation }) => {
 				placeholder="Nombre del juego"
 				placeholderTextColor="grey"
 			/>
-			<Button title="Buscar" onPress={handleSearch} />
+			{isLoading ? (
+				<ActivityIndicator size="large" color="blue" />
+			) : (
+				<Button title="Buscar" onPress={handleSearch} />
+			)}
 		</View>
 	);
 };

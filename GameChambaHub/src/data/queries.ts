@@ -1,10 +1,15 @@
 import { useQuery } from 'react-query';
 import { fetchGames } from '../api/endpoint';
 
-export const useGamesData = () => {
+export const useGamesData = (gameName, onSuccess) => {
 	return useQuery({
-		queryKey: ['gameData'],
-		queryFn: () => fetchGames,
+		queryKey: ['gameData', gameName],
+		queryFn: () => fetchGames(gameName),
+		onSuccess: (data) => {
+			if (onSuccess) {
+				onSuccess(data);
+			}
+		},
 		enabled: false,
 	});
 };
