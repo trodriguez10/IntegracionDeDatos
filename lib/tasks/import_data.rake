@@ -6,10 +6,22 @@ namespace :import_data do
     data_array = JSON.parse(json_data)
 
     data_array.map! do |game_data|
-      binding.pry
       {
         name: game_data['name'],
-        # ADD MORE RELEVANT FIELDS
+        store_url: game_data['store_url'],
+        store_uscore: game_data['store_uscore'],
+        published_meta: game_data['published_meta'],
+        published_igdb: game_data['published_igdb'],
+        full_price: game_data['full_price'],
+        current_price: game_data['current_price'],
+        developers: clear_collection(game_data['developers']),
+        publishers: clear_collection(game_data['publishers']),
+        languages: clear_collection(game_data['languages']),
+        meta_score: game_data['meta_score'],
+        meta_url: game_data['meta_url'],
+        igdb_url: game_data['igdb_url'],
+        igdb_score: game_data['igdb_score'],
+        igdb_popularity: game_data['igdb_popularity'],
       }
     end
 
@@ -17,36 +29,12 @@ namespace :import_data do
 
     puts 'Importación masiva completada.'
   end
-end
 
-# {
-#   "sid"=>10,
-#   "tags"=>
-#    "Action,FPS,Multiplayer,Shooter,Classic,Team-Based,First-Person,Competitive,Tactical,1990's,e-sports,PvP,Military,Strategy,Score Attack,Survival,Assassin,1980s,Ninja,Tower Defense",
-#   "achievements"=>nil,
-#   "gfq_url"=>"https://gamefaqs.gamespot.com/pc/429818-counter-strike?ftag=MCD-06-10aaa1f",
-#   "gfq_difficulty"=>"Just Right-Tough",
-#   "gfq_difficulty_comment"=>
-#    "<a href=\"/games/rankings?platform=19&amp;genre=54&amp;list_type=diff&amp;dlc=1&amp;page=33&amp;game_id=429818&amp;min_votes=2#1656\"><b>#1656</b></a> hardest PC action game (<a href=\"/games/rankings?platform=19&amp;list_type=diff&amp;dlc=1&amp;page=111&amp;game_id=429818&amp;min_votes=2#5600\"><b>#5600</b></a> on PC, <b>#22929</b> overall)",
-#   "gfq_rating"=>3.9,
-#   "gfq_rating_comment"=>
-#    "<a href=\"/games/rankings?platform=19&amp;genre=54&amp;list_type=rate&amp;dlc=1&amp;page=21&amp;game_id=429818&amp;min_votes=2#1079\"><b>#1079</b></a> highest rated PC action game (<a href=\"/games/rankings?platform=19&amp;list_type=rate&amp;dlc=1&amp;page=121&amp;game_id=429818&amp;min_votes=2#6055\"><b>#6055</b></a> on PC, <b>#18721</b> overall)",
-#   "gfq_length"=>64.5,
-#   "gfq_length_comment"=>
-#    "<a href=\"/games/rankings?platform=19&amp;genre=54&amp;list_type=time&amp;dlc=1&amp;game_id=429818&amp;min_votes=2#46\"><b>#46</b></a> longest PC action game (<a href=\"/games/rankings?platform=19&amp;list_type=time&amp;dlc=1&amp;page=15&amp;game_id=429818&amp;min_votes=2#773\"><b>#773</b></a> on PC, <b>#2305</b> overall)",
-#   "stsp_owners"=>15000000,
-#   "stsp_mdntime"=>200,
-#   "hltb_url"=>"https://howlongtobeat.com/game?id=1953",
-#   "hltb_single"=>nil,
-#   "hltb_complete"=>nil,
-#   "meta_url"=>"https://www.metacritic.com/game/pc/counter-strike?ftag=MCD-06-10aaa1f",
-#   "meta_score"=>88,
-#   "meta_uscore"=>92,
-#   "grnk_score"=>nil,
-#   "igdb_url"=>"https://www.igdb.com/games/counter-strike",
-#   "igdb_single"=>nil,
-#   "igdb_complete"=>nil,
-#   "igdb_score"=>70,
-#   "igdb_uscore"=>83,
-#   "igdb_popularity"=>25.74
-# }
+  private
+
+  def clear_collection(collection)
+    return if collection.blank? || collection.is_a?(Integer)
+
+    collection.split(',').map(&:strip).join(', ')
+  end
+end
