@@ -16,7 +16,8 @@ const HomeScreen = ({ navigation }) => {
 	const insets = useSafeAreaInsets();
 
 	const onSuccess = (data) => {
-		navigation.navigate('GamesScreen', { games: data });
+		console.log(data);
+		navigation.navigate('Games');
 	};
 
 	const { data, isLoading, error, refetch } = useGamesData(gameName, onSuccess);
