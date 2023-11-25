@@ -1,6 +1,7 @@
 class IgdbConnection < SolidService::Base
   CLIENT_ID = 'dxqm0t99gx0v2runs76utaq5jo65i1'.freeze
   CLIENT_SECRET = 'dy0gpjxmcbhjith5uh3805kksvutus'.freeze
+  REDIRECT_URI = 'localhost:3000'.freeze
 
   def call
     success!(response: query_builder)
@@ -38,7 +39,7 @@ class IgdbConnection < SolidService::Base
       req.params['client_id'] = CLIENT_ID
       req.params['client_secret'] = CLIENT_SECRET
       req.params['grant_type'] = 'client_credentials'
-      req.params['redirect_uri'] = redirect_uri
+      req.params['redirect_uri'] = REDIRECT_URI
       req.params['response_type'] = 'token'
     end
   end
@@ -55,9 +56,5 @@ class IgdbConnection < SolidService::Base
 
   def game_name
     params[:name]
-  end
-
-  def redirect_uri
-    @redirect_uri ||= 'localhost:3000'
   end
 end

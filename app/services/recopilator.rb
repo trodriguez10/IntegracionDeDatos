@@ -1,17 +1,11 @@
 class Recopilator < SolidService::Base
   def call
-    success!(response: game.already_scraped? ? game : joint_information)
+    fail!(error: 'El juego no existe.') if game.blank?
 
-    error!(response: 'Algo salio mal')
+    success!(game: game.already_scraped? ? game : joint_information)
+
+    fail!(error: 'Algo salio mal')
   end
-
-  # INFORMATION
-    # rawg RATINGS?
-    # "ratings"=>
-    # [{"id"=>4, "title"=>"recommended", "count"=>1597, "percent"=>46.67},
-    #  {"id"=>3, "title"=>"meh", "count"=>892, "percent"=>26.07},
-    #  {"id"=>5, "title"=>"exceptional", "count"=>550, "percent"=>16.07},
-    #  {"id"=>1, "title"=>"skip", "count"=>383, "percent"=>11.19}],
 
   private
 
@@ -22,7 +16,6 @@ class Recopilator < SolidService::Base
     data.merge!(rawg_data) if rawg.present?
 
     game.update(data)
-
     game.reload
     game
   end
@@ -46,9 +39,9 @@ class Recopilator < SolidService::Base
       background_image: rawg['background_image'],
       rawg_rating: rawg['rating'],
       rawg_metacritic: rawg['metacritic'],
-      rawg_platforms: scrap_names(rawg['platforms'].flat_map(&:values)),
-      rawg_stores: scrap_names(rawg['stores'].flat_map(&:values)),
-      rawg_esrb_rating: rawg['esrb_rating']['name'],
+      rawg_platforms: scrap_names(rawg['platforms'].try(:flat_map, &:values)),
+      rawg_stores: scrap_names(rawg['stores'].try(:flat_map, &:values)),
+      rawg_esrb_rating: rawg['esrb_rating'].try(:[], 'name'),
       rawg_genres: scrap_names(rawg['genres'])
     }
   end
@@ -79,7 +72,7 @@ class Recopilator < SolidService::Base
   end
 
   def game
-    regex = Regexp.new(Regexp.escape(game_name), 'i') # 'i' hace que la búsqueda sea insensible a mayúsculas y minúsculas
+    regex = Regexp.new(Regexp.escape(game_name), 'i')
 
     @game ||= Game.where(name: regex).first
   end
@@ -92,10 +85,3 @@ class Recopilator < SolidService::Base
     @name ||= params[:name]
   end
 end
-
-# VALID GAMES
-# Counter-Strike: Global Offensive
-# Need for Speed Undercover
-# Grand Theft Auto IV
-# FIFA 21
-# God of War

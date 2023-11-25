@@ -35,7 +35,28 @@ class Game
   field :languages, type: String
   field :meta_score, type: String
   field :meta_url, type: String
-  field :igdb_url, type: String
+  field :igdb_url_steam, type: String
   field :igdb_score, type: String
   field :igdb_popularity, type: String
+
+  def game_name
+    igdb_name || rawg_name || name
+  end
+
+  def igdb_url
+    igdb_url_igdb || igdb_url_steam
+  end
+
+  def parse_game
+    self.as_json
+        .except(*fields_to_exclude)
+        .merge!({ name: game_name, igdb_url: igdb_url })
+        .symbolize_keys
+  end
+
+  private
+
+  def fields_to_exclude
+    %w[already_scraped created_at updated_at igdb_url_igdb igdb_url_steam igdb_name rawg_name name]
+  end
 end
