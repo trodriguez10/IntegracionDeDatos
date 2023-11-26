@@ -10,17 +10,18 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGamesData } from '../../data/queries';
+import { Game } from '../../models/types';
+import { AppStackScreenProps } from '../../navigation/routes';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen: React.FC<AppStackScreenProps<'Home'>> = ({ navigation }) => {
 	const [gameName, setGameName] = useState('');
 	const insets = useSafeAreaInsets();
 
-	const onSuccess = (data) => {
-		console.log(data);
-		navigation.navigate('Games');
+	const onSuccess = (data: Game) => {
+		navigation.navigate('Games', { games: [data] });
 	};
 
-	const { data, isLoading, error, refetch } = useGamesData(gameName, onSuccess);
+	const { isLoading, error, refetch } = useGamesData(gameName, onSuccess);
 
 	const handleSearch = () => {
 		refetch();

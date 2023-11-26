@@ -1,6 +1,6 @@
-import { useNavigation } from '@react-navigation/native';
+
 import React from 'react';
-import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 type GameItemProps = {
@@ -9,20 +9,14 @@ type GameItemProps = {
 };
 
 const GameItem = ({ name, image }: GameItemProps) => {
-	const navigation = useNavigation();
 	return (
-		<Pressable
-			onPress={() => navigation.navigate('GameDetail')}
-			style={styles.itemContainer}>
-			<Image
-				source={require('../../../../assets/gta.jpg')}
-				style={styles.gameImage}
-			/>
+		<View style={styles.itemContainer}>
+			<Image source={{ uri: image }} style={styles.gameImage} />
 			<View style={styles.gameInfo}>
 				<Text style={styles.gameName}>{name}</Text>
 			</View>
 			<Icon name="chevron-right" size={30} color="white" />
-		</Pressable>
+		</View>
 	);
 };
 
