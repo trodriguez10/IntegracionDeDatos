@@ -7,6 +7,7 @@ import {
 	TextInput,
 	Alert,
 	ActivityIndicator,
+	Image,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGamesData } from '../../data/queries';
@@ -36,6 +37,14 @@ const HomeScreen: React.FC<AppStackScreenProps<'Home'>> = ({ navigation }) => {
 	return (
 		<View style={[styles.container, { paddingTop: insets.top }]}>
 			<StatusBar style="light" backgroundColor="#000000" />
+			<View style={styles.logoContainer}>
+				<Image
+					style={styles.logo}
+					source={require('../../../assets/gameicon.jpg')}
+					resizeMode="contain"
+				/>
+			</View>
+
 			<TextInput
 				style={styles.input}
 				value={gameName}
@@ -44,7 +53,7 @@ const HomeScreen: React.FC<AppStackScreenProps<'Home'>> = ({ navigation }) => {
 				placeholderTextColor="grey"
 			/>
 			{isLoading ? (
-				<ActivityIndicator size="large" color="blue" />
+				<ActivityIndicator size="large" color="white" />
 			) : (
 				<Button title="Buscar" onPress={handleSearch} />
 			)}
@@ -57,8 +66,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: 'black',
 		flex: 1,
-		justifyContent: 'center',
 	},
+
 	input: {
 		borderColor: 'grey',
 		borderRadius: 5,
@@ -68,6 +77,15 @@ const styles = StyleSheet.create({
 		margin: 12,
 		padding: 10,
 		width: '80%',
+	},
+	logoContainer: {
+		marginBottom: 20,
+		marginTop: 180,
+		alignItems: 'center',
+	},
+	logo: {
+		height: 100,
+		width: 100,
 	},
 	text: {
 		color: 'white',
