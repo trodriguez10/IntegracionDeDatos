@@ -1,6 +1,6 @@
 class IgdbConnection < SolidService::Base
-  CLIENT_ID = 'dxqm0t99gx0v2runs76utaq5jo65i1'.freeze
-  CLIENT_SECRET = 'dy0gpjxmcbhjith5uh3805kksvutus'.freeze
+  CLIENT_ID = Rails.application.credentials.dig(:igdb, :client_id).freeze
+  CLIENT_SECRET = Rails.application.credentials.dig(:igdb, :client_secret).freeze
   REDIRECT_URI = 'localhost:3000'.freeze
 
   def call
