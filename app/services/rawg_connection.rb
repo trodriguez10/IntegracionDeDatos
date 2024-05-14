@@ -1,7 +1,5 @@
-# USE HTTP PARTY / SOMETHING SIMILAR TO CONNECT TO THE API
-
 class RawgConnection < SolidService::Base
-  API_KEY = 'd8e03b4f29354cd5b76be7f5201f047d'
+  API_KEY = Rails.application.credentials.dig(:rawg, :api_key).freeze
   RAWG_URL = 'https://api.rawg.io/api'
 
   def call
@@ -24,6 +22,9 @@ class RawgConnection < SolidService::Base
   end
 
   def get_games(name, limit)
-    Faraday.get("#{RAWG_URL}/games?key=#{API_KEY}&search=#{name}&page_size=#{limit || 40}", "Content-Type" => "application/json")
+    Faraday.get(
+      "#{RAWG_URL}/games?key=#{API_KEY}&search=#{name}&page_size=#{limit || 40}", 
+      "Content-Type" => "application/json"
+    )
   end
 end

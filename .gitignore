@@ -32,3 +32,5 @@ yarn-debug.log*
 .yarn-integrity
 /steamdb.json
 steamdb.json
+
+/config/master.key
